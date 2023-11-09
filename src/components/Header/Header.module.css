@@ -1,0 +1,18 @@
+.header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #3d6565;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 20px;
+    height: 288px;
+    width: 100%;
+}
+p{
+    margin: 0;
+}
+.text{
+    margin-bottom:22px ;
+}

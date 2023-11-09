@@ -1,4 +1,5 @@
 import './App.module.css'
+import Header from './components/Header/Header'
 
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p> */}
-        
+        <Header/>
       </div>
     </>
   )
