@@ -1,0 +1,12 @@
+.title {
+    width: 100%;
+    text-align: left;
+    font-size: 34px;
+    color: #62797b;
+    margin-top: 78px;
+}
+
+.btnList {
+    list-style: none;
+    display: grid;
+}

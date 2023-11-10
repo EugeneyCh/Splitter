@@ -1,0 +1,33 @@
+.inputPlaceTitle {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 142px;
+    width: 100%;
+    font-size: 22px;
+    color: #62797b;
+    margin-top: 76px;
+}
+
+.inputPlace {
+    height: 92px;
+    text-align: end;
+    border-radius: 10px;
+    border: none;
+    color: #00464e;
+    font-size: 34px;
+    font-weight: 700;
+    background-color: #f3f8fb;
+    margin-top: 24px;
+    padding: 0px 38px;
+}
+
+.dollar {
+    position: absolute;
+    top: 76px;
+    left: 38px;
+    font-size: 34px;
+    font-weight: 700;
+    color: #9fbebe;
+}

@@ -1,5 +1,8 @@
-import './App.module.css'
+import css from './App.module.css'
 import Header from './components/Header/Header'
+import InputPlace from './components/InputPlace/InputPlace'
+import SelectTip from './components/SelectTip/SelectTip'
+
 
 function App() {
 
@@ -21,7 +24,11 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p> */}
-        <Header/>
+        <Header />
+        <div className={css.container}>
+          <InputPlace />
+          <SelectTip />
+        </div>
       </div>
     </>
   )

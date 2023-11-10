@@ -1,6 +1,20 @@
-div{
+div {
   max-width: 750px;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  width: 620px;
+  height: 1580px;
+  background-color: #fff;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  padding: 0px 65px;
 }
