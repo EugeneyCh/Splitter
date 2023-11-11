@@ -10,6 +10,10 @@ const SelectTip = () => {
                     return (<li className={css.btn} key={item}>{item}%</li>)
                 })}
             </ul>
+            {/* <p className={css.countPeopleTitle}>Number of People</p> */}
+            <label className={css.countPeople}>Number of People
+                <input type='number' name='count' placeholder='0' className={css.countPeopleInput}></input>
+            </label>
         </>
     )
 }
