@@ -19,12 +19,7 @@
 }
 
 .totalContainer {
-    margin-top: 64px;
-}
-
-.tipAmount {
-    padding-top: 90px;
-
+    padding-top: 64px;
 }
 
 .tipAmountTitle,
@@ -61,5 +56,54 @@
     background-color: #2ac3ae;
     border-radius: 10px;
     margin-top: 68px;
+
+}
+
+
+
+
+@media screen and (min-width: 1000px) {
+    .container {
+        height: 352px;
+        width: 332px;
+        margin-top: 0px;
+        padding-top: 60px;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    .tipContainer,
+    .totalContainer {
+        height: 36px;
+    }
+
+    .totalContainer {
+        padding-top: 40px;
+    }
+
+    .tipAmountTitle,
+    .totalAmountTitle {
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+
+    .person {
+        font-size: 10px;
+        letter-spacing: 1px;
+        margin-top: 10px;
+    }
+
+    .amountTip,
+    .amountTotal {
+        font-size: 36px;
+    }
+
+    .btnReset {
+        height: 48px;
+        font-size: 16px;
+        background-color: #2ac3ae;
+        margin-top: 136px;
+
+    }
 
 }

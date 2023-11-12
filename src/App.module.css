@@ -20,11 +20,16 @@ div {
 
 @media screen and (min-width: 1000px) {
   div {
-    max-width: 790px;
+    max-width: 920px;
   }
 
   .container {
-    width: 920px;
+    width: 960px;
+    height: 482px;
+    flex-direction: row;
+    border-radius: 50px;
+    padding: 0px;
+
   }
 
 }

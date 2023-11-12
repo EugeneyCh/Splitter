@@ -1,3 +1,43 @@
+.actionContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputPlaceTitle {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 142px;
+    width: 100%;
+    font-size: 22px;
+    color: #62797b;
+    margin-top: 76px;
+}
+
+.inputPlace {
+    height: 92px;
+    text-align: end;
+    border-radius: 10px;
+    border: none;
+    color: #00464e;
+    font-size: 34px;
+    font-weight: 700;
+    background-color: #f3f8fb;
+    margin-top: 24px;
+    padding: 0px 38px;
+}
+
+.dollar {
+    position: absolute;
+    top: 76px;
+    left: 38px;
+    font-size: 34px;
+    font-weight: 700;
+    color: #9fbebe;
+}
+
+
 .title {
     width: 100%;
     text-align: left;
@@ -16,11 +56,10 @@
     margin: 0;
     padding: 0;
     padding-top: 44px;
-
-
 }
 
-.btn {
+.btn,
+.btn:last-child {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,21 +70,11 @@
     border-radius: 10px;
     color: #fff;
     background-color: #00464e;
-
 }
 
 .btn:last-child {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 36px;
-    font-weight: 700;
-    width: 290px;
-    height: 96px;
-    border-radius: 10px;
     color: #62797b;
     background-color: #f3f8fb;
-
 }
 
 .countPeople {
@@ -71,4 +100,74 @@
     background-color: #f3f8fb;
     margin-top: 24px;
     padding: 0px 38px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+
+
+
+    .actionContainer {
+        height: 480px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 48px;
+    }
+
+    .inputPlaceTitle {
+        height: 70px;
+        font-size: 12px;
+        margin-top: 48px;
+    }
+
+    .inputPlace {
+        height: 46px;
+        border-radius: 10px;
+        font-size: 16px;
+        margin-top: 14px;
+        padding: 0px 18px;
+    }
+
+    .dollar {
+        top: 40px;
+        left: 18px;
+        font-size: 18px;
+    }
+
+    .title {
+        font-size: 12px;
+        margin-top: 48px;
+    }
+
+    .btnList {
+        grid-template-columns: repeat(3, 116px);
+        grid-auto-rows: 48px;
+        grid-column-gap: 18px;
+        grid-row-gap: 18px;
+        padding-top: 20px;
+    }
+
+    .btn,
+    .btn:last-child {
+        font-size: 18px;
+        width: 116px;
+        height: 48px;
+    }
+
+    .countPeople {
+        height: 72px;
+        font-size: 12px;
+        margin-top: 46px;
+    }
+
+    .countPeopleInput {
+        height: 48px;
+        font-size: 18px;
+        margin-top: 10px;
+        padding: 0px 14px;
+    }
+
+
 }
