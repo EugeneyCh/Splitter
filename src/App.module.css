@@ -1,6 +1,5 @@
 div {
   max-width: 750px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,4 +16,15 @@ div {
   border-top-left-radius: 50px;
   border-top-right-radius: 50px;
   padding: 0px 65px;
+}
+
+@media screen and (min-width: 1000px) {
+  div {
+    max-width: 790px;
+  }
+
+  .container {
+    width: 920px;
+  }
+
 }
