@@ -1,7 +1,14 @@
 import css from './SelectTip.module.css'
 
+
 const SelectTip = () => {
     const btnlist = ['5%', '10%', '15%', '25%', '50%', 'Custom']
+    // const [selectedItem, setSelectedItem] = useState(null);
+
+    // const handleButtonClick = (item:string) => {
+    //     setSelectedItem(item);
+    // };
+   
     return (
         <div className={css.actionContainer}>
             <label className={css.inputPlaceTitle}>Bill
@@ -11,8 +18,9 @@ const SelectTip = () => {
 
             <p className={css.title}>Select Tip %</p>
             <ul className={css.btnList}>
-                {btnlist.map((item) => {
+                {btnlist.map((item:string) => {
                     return (<li className={css.btn} key={item}>{item}</li>)
+                    // return (<li className={`${css.btn} ${selectedItem === item ? css.selected : ''}`} onClick={() => handleButtonClick(item)} key={item}>{item}</li>)
                 })}
             </ul>
             {/* <p className={css.countPeopleTitle}>Number of People</p> */}

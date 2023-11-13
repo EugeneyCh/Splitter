@@ -42,6 +42,7 @@
     width: 100%;
     text-align: left;
     font-size: 34px;
+    font-weight: 700;
     color: #62797b;
     margin-top: 78px;
 }
@@ -72,6 +73,14 @@
     background-color: #00464e;
 }
 
+.btn:hover,
+.btn:focus,
+.btn:active {
+    cursor: pointer;
+    background-color: #2ac3ae;
+    color: #00464e;
+}
+
 .btn:last-child {
     color: #62797b;
     background-color: #f3f8fb;
@@ -100,6 +109,16 @@
     background-color: #f3f8fb;
     margin-top: 24px;
     padding: 0px 38px;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type="number"]:focus,
+input[type="number"]:hover {
+    border-color: #2ac3ae;
 }
 
 
