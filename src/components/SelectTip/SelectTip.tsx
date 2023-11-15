@@ -1,46 +1,7 @@
-// import css from './SelectTip.module.css'
-
-
-// const SelectTip = () => {
-//     const btnlist = ['5', '10', '15', '25', '50']
-//     // const [selectedItem, setSelectedItem] = useState(null);
-
-//     // const handleButtonClick = (item:string) => {
-//     //     setSelectedItem(item);
-//     // };
-
-//     return (
-//         <div className={css.actionContainer}>
-//             <label className={css.inputPlaceTitle}>Bill
-//                 <input type='number' name='sum' placeholder='0.00' className={css.inputPlace}></input>
-//                 <p className={css.dollar}>$</p>
-//             </label>
-
-//             <p className={css.title}>Select Tip %</p>
-//             <ul className={css.btnList}>
-//                 {btnlist.map((item: string) => {
-//                     return (<li className={css.btn} key={item}>{item}%</li>)
-//                     // return (<li className={`${css.btn} ${selectedItem === item ? css.selected : ''}`} onClick={() => handleButtonClick(item)} key={item}>{item}</li>)
-//                 })}
-//                 <li className={css.customInputArea}><input type="number" className={css.customInput} placeholder='Custom' /></li>
-//             </ul>
-//             {/* <p className={css.countPeopleTitle}>Number of People</p> */}
-//             <label className={css.countPeopleTitle}>Number of People
-//                 <input type='number' name='count' placeholder='0' className={css.countPeopleInput}></input>
-//             </label>
-//         </div >
-//     )
-// }
-
-// export default SelectTip
-
-
-
-///////////////////////////////////////////////////////////////
-
-
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_BILL_AMOUNT, SET_TIP_PERCENTAGE, SET_NUMBER_OF_PEOPLE, AppState } from '../store/tipCount/tipCount-selectors';
+
+import { SET_BILL_AMOUNT, SET_TIP_PERCENTAGE, SET_NUMBER_OF_PEOPLE, SET_PERSONAL_TIP, SET_PERSONAL_AMOUNT, AppState } from '../store/tipCount/tipCount-actions';
+
 import css from './SelectTip.module.css';
 
 const SelectTip = () => {
@@ -60,7 +21,19 @@ const SelectTip = () => {
         const count = parseInt(event.target.value, 10);
         dispatch({ type: SET_NUMBER_OF_PEOPLE, payload: isNaN(count) ? 0 : count });
     };
+    const calculatePersonalBill = (billAmount: number, tipPercentage?: number, numberOfPeople?: number) => {
+        if (billAmount <= 0) return;
+        if (tipPercentage && numberOfPeople > 1) {
+            const totalPersonalTip = billAmount / numberOfPeople * tipPercentage / 100;
+            const totalPersonalAmount = billAmount / numberOfPeople * (1 + tipPercentage / 100);
+            dispatch({ type: SET_PERSONAL_TIP, payload: totalPersonalTip })
+            dispatch({ type: SET_PERSONAL_AMOUNT, payload: totalPersonalAmount })
+        }
 
+
+    }
+
+    console.log(billAmount)
     return (
         <div className={css.actionContainer}>
             <label className={css.inputPlaceTitle}>
@@ -72,6 +45,7 @@ const SelectTip = () => {
                     className={css.inputPlace}
                     value={billAmount}
                     onChange={handleBillAmountChange}
+                    onBlur={calculatePersonalBill}
                 />
                 <p className={css.dollar}>$</p>
             </label>
@@ -94,7 +68,7 @@ const SelectTip = () => {
                 <input
                     type="number"
                     name="count"
-                    placeholder="0"
+                    placeholder="1"
                     className={css.countPeopleInput}
                     value={numberOfPeople}
                     onChange={handleNumberOfPeopleChange}

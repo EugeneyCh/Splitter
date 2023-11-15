@@ -1,6 +1,24 @@
-import css from './AmountTips.module.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { RESET_ALL, AppState } from '../store/tipCount/tipCount-actions';
+
+import css from './AmountTips.module.css';
+
+
 
 const AmountTips = () => {
+    const dispatch = useDispatch();
+
+    const { amountTip, amountTotal } = useSelector((state: AppState) => state);
+    // const state = useSelector((state: AppState) => state);
+
+
+    console.log(amountTip, amountTotal)
+    // console.log(state.tipCount.amountTip, amountTotal)
+    // console.log(state)
+
+    const handleResetAction = () => { dispatch({ type: RESET_ALL }); }
+
+
     return (
         <div className={css.container}>
             <div className={css.tipContainer}>
@@ -8,19 +26,19 @@ const AmountTips = () => {
                     <p className={css.tipAmountTitle}>Tip Amount</p>
                     <p className={css.person}>/ person</p>
                 </div>
-                <p className={css.amountTip}>$4.27</p>
+                <p className={css.amountTip}>{amountTip}</p>
             </div>
 
-            <div className={css.total}>           
-              <div className={css.totalContainer}>
-                <div className={css.totalAmount}>
-                    <p className={css.totalAmountTitle}>Total</p>
-                    <p className={css.person}>/ person</p>
+            <div className={css.total}>
+                <div className={css.totalContainer}>
+                    <div className={css.totalAmount}>
+                        <p className={css.totalAmountTitle}>Total</p>
+                        <p className={css.person}>/ person</p>
+                    </div>
+                    <p className={css.amountTotal}>{amountTotal}</p>
                 </div>
-                <p className={css.amountTotal}>$32.79</p>
-               </div>
             </div>
-            <button className={css.btnReset}>RESET</button>
+            <button className={css.btnReset} onClick={handleResetAction}>RESET</button>
         </div>
     )
 }
