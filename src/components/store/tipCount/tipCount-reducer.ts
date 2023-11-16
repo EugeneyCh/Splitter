@@ -31,7 +31,7 @@ export const tipCount = (state = initialState, action: AppAction): AppState => {
     case SET_PERSONAL_TIP:
       return { ...state, amountTip: action.payload };
     case RESET_ALL:
-      return { ...initialState }
+      return initialState
     default:
       return state;
   }

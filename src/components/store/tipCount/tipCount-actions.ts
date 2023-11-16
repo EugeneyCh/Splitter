@@ -13,6 +13,7 @@ export interface AppState {
   amountTip: number;
   amountTotal: number;
 }
+export interface tipCount { tipCount: AppState }
 
 interface SetBillAmountAction {
   type: typeof SET_BILL_AMOUNT;

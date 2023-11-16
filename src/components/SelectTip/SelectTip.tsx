@@ -1,39 +1,52 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { SET_BILL_AMOUNT, SET_TIP_PERCENTAGE, SET_NUMBER_OF_PEOPLE, SET_PERSONAL_TIP, SET_PERSONAL_AMOUNT, AppState } from '../store/tipCount/tipCount-actions';
+import { SET_BILL_AMOUNT, SET_TIP_PERCENTAGE, SET_NUMBER_OF_PEOPLE, SET_PERSONAL_TIP, SET_PERSONAL_AMOUNT, tipCount } from '../store/tipCount/tipCount-actions';
 
 import css from './SelectTip.module.css';
 
 const SelectTip = () => {
     const dispatch = useDispatch();
-    const { billAmount, tipPercentage, numberOfPeople } = useSelector((state: AppState) => state);
+    const { billAmount, tipPercentage, numberOfPeople } = useSelector((state: tipCount) => state.tipCount);
+    // const billAmount = useSelector((state: any) => state.tipCount);
 
     const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const amount = parseFloat(event.target.value);
         dispatch({ type: SET_BILL_AMOUNT, payload: isNaN(amount) ? 0 : amount });
+        calculatePersonalBill(amount, tipPercentage, numberOfPeople)
     };
 
     const handleTipPercentageChange = (percentage: number) => {
         dispatch({ type: SET_TIP_PERCENTAGE, payload: percentage });
+        calculatePersonalBill(billAmount, percentage, numberOfPeople)
+
     };
 
     const handleNumberOfPeopleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const count = parseInt(event.target.value, 10);
         dispatch({ type: SET_NUMBER_OF_PEOPLE, payload: isNaN(count) ? 0 : count });
+        calculatePersonalBill(billAmount, tipPercentage, count)
+
     };
-    const calculatePersonalBill = (billAmount: number, tipPercentage?: number, numberOfPeople?: number) => {
+
+    const calculatePersonalBill = (billAmount: number, tipPercentage: number, numberOfPeople: number) => {
         if (billAmount <= 0) return;
-        if (tipPercentage && numberOfPeople > 1) {
-            const totalPersonalTip = billAmount / numberOfPeople * tipPercentage / 100;
-            const totalPersonalAmount = billAmount / numberOfPeople * (1 + tipPercentage / 100);
+        if (tipPercentage > 0 && numberOfPeople >= 1) {
+            const totalPersonalTip = (billAmount / numberOfPeople * tipPercentage / 100).toFixed(2);
+            const totalPersonalAmount = (billAmount / numberOfPeople * (1 + tipPercentage / 100)).toFixed(2);
             dispatch({ type: SET_PERSONAL_TIP, payload: totalPersonalTip })
             dispatch({ type: SET_PERSONAL_AMOUNT, payload: totalPersonalAmount })
+        } else if (tipPercentage === 0 && numberOfPeople === 1) {
+            const totalPersonalTip = 0;
+            const totalPersonalAmount = (billAmount / numberOfPeople).toFixed(2);
+            dispatch({ type: SET_PERSONAL_TIP, payload: totalPersonalTip })
+            dispatch({ type: SET_PERSONAL_AMOUNT, payload: totalPersonalAmount })
+
         }
 
 
     }
 
-    console.log(billAmount)
+    // console.log(billAmount)
     return (
         <div className={css.actionContainer}>
             <label className={css.inputPlaceTitle}>
@@ -41,11 +54,10 @@ const SelectTip = () => {
                 <input
                     type="number"
                     name="sum"
-                    placeholder="0.00"
+                    placeholder={billAmount > 0 ? billAmount.toString() : "0.00"}
                     className={css.inputPlace}
-                    value={billAmount}
+                    // value={billAmount}
                     onChange={handleBillAmountChange}
-                    onBlur={calculatePersonalBill}
                 />
                 <p className={css.dollar}>$</p>
             </label>
@@ -68,9 +80,9 @@ const SelectTip = () => {
                 <input
                     type="number"
                     name="count"
-                    placeholder="1"
+                    placeholder={numberOfPeople > 1 ? numberOfPeople.toString() : "1"}
                     className={css.countPeopleInput}
-                    value={numberOfPeople}
+                    // value={numberOfPeople}
                     onChange={handleNumberOfPeopleChange}
                 />
             </label>

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { RESET_ALL, AppState } from '../store/tipCount/tipCount-actions';
+import { RESET_ALL, tipCount } from '../store/tipCount/tipCount-actions';
 
 import css from './AmountTips.module.css';
 
@@ -8,13 +8,7 @@ import css from './AmountTips.module.css';
 const AmountTips = () => {
     const dispatch = useDispatch();
 
-    const { amountTip, amountTotal } = useSelector((state: AppState) => state);
-    // const state = useSelector((state: AppState) => state);
-
-
-    console.log(amountTip, amountTotal)
-    // console.log(state.tipCount.amountTip, amountTotal)
-    // console.log(state)
+    const { amountTip, amountTotal } = useSelector((state: tipCount) => state.tipCount);
 
     const handleResetAction = () => { dispatch({ type: RESET_ALL }); }
 
