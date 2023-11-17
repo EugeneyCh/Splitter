@@ -1,3 +1,5 @@
+
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { SET_BILL_AMOUNT, SET_TIP_PERCENTAGE, SET_TIP_PERCENTAGE_CUSTOM, SET_NUMBER_OF_PEOPLE, SET_PERSONAL_TIP, SET_PERSONAL_AMOUNT, tipCount } from '../store/tipCount/tipCount-actions';
@@ -7,7 +9,8 @@ import css from './SelectTip.module.css';
 const SelectTip = () => {
     const dispatch = useDispatch();
     const { billAmount, tipPercentage, tipPercentageCustom, numberOfPeople } = useSelector((state: tipCount) => state.tipCount);
-    // const billAmount = useSelector((state: any) => state.tipCount);
+
+    const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null);
 
     const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const amount = parseFloat(event.target.value);
@@ -17,19 +20,20 @@ const SelectTip = () => {
 
     const handleTipPercentageChange = (percentage: number) => {
         dispatch({ type: SET_TIP_PERCENTAGE, payload: percentage });
+        setSelectedPercentage(percentage);
         calculatePersonalBill(billAmount, percentage, tipPercentageCustom, numberOfPeople)
     };
 
     const handleTipPercentageCustomChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const percCustom = parseFloat(event.target.value);
         dispatch({ type: SET_TIP_PERCENTAGE_CUSTOM, payload: isNaN(percCustom) ? 0 : percCustom });
+        setSelectedPercentage(null);
         calculatePersonalBill(billAmount, percCustom, tipPercentageCustom, numberOfPeople)
     };
 
     const handleNumberOfPeopleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const count = parseInt(event.target.value, 10);
         if (count < 0 || isNaN(count)) {
-            // Попередження, можна вивести якось інакше
             alert("Number of people must be a positive integer");
             return;
         }
@@ -56,7 +60,6 @@ const SelectTip = () => {
 
     }
 
-    // console.log(billAmount)
     return (
         <div className={css.actionContainer}>
             <label className={css.inputPlaceTitle}>
@@ -74,15 +77,14 @@ const SelectTip = () => {
 
             <p className={css.title}>Select Tip %</p>
             <ul className={css.btnList}>
-                {/* Add click handlers for percentage buttons */}
                 {['5', '10', '15', '25', '50'].map((item: string) => (
-                    <li className={css.btn} key={item} onClick={() => handleTipPercentageChange(parseInt(item, 10))}>
+                    <li className={`${css.btn} ${selectedPercentage === parseInt(item, 10) ? css.selected : ''}`} key={item} onClick={() => handleTipPercentageChange(parseInt(item, 10))}>
                         {item}%
                     </li>
                 ))}
                 <li className={css.customInputArea}>
                     <input type="number"
-                        className={css.customInput}
+                        className={`${css.customInput} ${tipPercentageCustom !== 0 ? css.customInputselected : ''}`}
                         placeholder={tipPercentageCustom === 0 ? "Custom" : "0"}
                         value={tipPercentageCustom === 0 ? "" : tipPercentageCustom}
                         onChange={handleTipPercentageCustomChange}
