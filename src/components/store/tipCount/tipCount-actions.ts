@@ -10,7 +10,7 @@ export const RESET_ALL = 'RESET_ALL';
 export interface AppState {
   billAmount: number;
   tipPercentage: number;
-  tipPercentageCustom: number;
+  tipPercentageCustom: number | null;
   numberOfPeople: number;
   amountTip: number;
   amountTotal: number;

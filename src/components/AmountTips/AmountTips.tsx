@@ -20,7 +20,7 @@ const AmountTips = () => {
                     <p className={css.tipAmountTitle}>Tip Amount</p>
                     <p className={css.person}>/ person</p>
                 </div>
-                <p className={css.amountTip}>{amountTip}</p>
+                <p className={css.amountTip}>{isNaN(amountTip) ? '0' : amountTip}</p>
             </div>
 
             <div className={css.total}>
@@ -29,7 +29,7 @@ const AmountTips = () => {
                         <p className={css.totalAmountTitle}>Total</p>
                         <p className={css.person}>/ person</p>
                     </div>
-                    <p className={css.amountTotal}>{amountTotal}</p>
+                    <p className={css.amountTotal}>{isNaN(amountTotal) ? '0' : amountTotal}</p>
                 </div>
             </div>
             <button className={css.btnReset} onClick={handleResetAction}>RESET</button>
