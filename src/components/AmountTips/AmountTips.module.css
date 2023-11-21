@@ -5,7 +5,7 @@
     border-radius: 20px;
     background-color: #00464e;
     margin-top: 66px;
-    padding-top: 90px;
+    padding-top: 36px;
     padding-left: 48px;
     padding-right: 42px;
 }
@@ -18,9 +18,9 @@
     justify-content: space-between;
 }
 
-.totalContainer {
-    padding-top: 64px;
-}
+/* .totalContainer {
+    padding-top: 36px;
+} */
 
 .tipAmountTitle,
 .totalAmountTitle {
@@ -49,13 +49,13 @@
 
 
 .btnReset {
-    height: 96px;
+    height: 72px;
     color: #00464e;
     font-size: 28px;
     font-weight: 700;
     background-color: #2ac3ae;
     border-radius: 10px;
-    margin-top: 68px;
+    margin-top: 24px;
 
 }
 
@@ -78,7 +78,7 @@
     }
 
     .totalContainer {
-        padding-top: 40px;
+        padding-top: 12px;
     }
 
     .tipAmountTitle,
@@ -102,7 +102,7 @@
         height: 48px;
         font-size: 16px;
         background-color: #2ac3ae;
-        margin-top: 136px;
+        margin-top: 84px;
 
     }
 

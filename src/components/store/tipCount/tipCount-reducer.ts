@@ -8,6 +8,8 @@ import {
   SET_PERSONAL_AMOUNT,
   SET_PERSONAL_TIP,
   RESET_ALL,
+  SET_TOTAL_TIPS,
+  SET_TOTAL_BILL,
 } from './tipCount-actions';
 
 export const initialState: AppState = {
@@ -17,6 +19,8 @@ export const initialState: AppState = {
   numberOfPeople: 0,
   amountTip: 0,
   amountTotal: 0,
+  totalTips: 0,
+  totalBill: 0,
 
 };
 
@@ -34,6 +38,10 @@ export const tipCount = (state = initialState, action: AppAction): AppState => {
       return { ...state, amountTotal: action.payload };
     case SET_PERSONAL_TIP:
       return { ...state, amountTip: action.payload };
+    case SET_TOTAL_TIPS:
+      return { ...state, totalTips: action.payload };
+    case SET_TOTAL_BILL:
+      return { ...state, totalBill: action.payload };
     case RESET_ALL:
       return initialState
     default:

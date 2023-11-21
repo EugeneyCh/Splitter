@@ -1,16 +1,14 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { SET_BILL_AMOUNT, SET_TIP_PERCENTAGE, SET_TIP_PERCENTAGE_CUSTOM, SET_NUMBER_OF_PEOPLE, SET_PERSONAL_TIP, SET_PERSONAL_AMOUNT, tipCount } from '../store/tipCount/tipCount-actions';
+import { SET_BILL_AMOUNT, SET_TIP_PERCENTAGE, SET_TIP_PERCENTAGE_CUSTOM, SET_NUMBER_OF_PEOPLE, SET_PERSONAL_TIP, SET_PERSONAL_AMOUNT, tipCount, SET_TOTAL_TIPS, SET_TOTAL_BILL } from '../store/tipCount/tipCount-actions';
 
 import css from './SelectTip.module.css';
 
 const SelectTip = () => {
     const dispatch = useDispatch();
     const { billAmount, tipPercentage, tipPercentageCustom, numberOfPeople } = useSelector((state: tipCount) => state.tipCount);
-
-    const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null);
 
     const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         // const amount = parseFloat(event.target.value);
@@ -21,14 +19,12 @@ const SelectTip = () => {
 
     const handleTipPercentageChange = (percentage: number) => {
         dispatch({ type: SET_TIP_PERCENTAGE, payload: percentage });
-        setSelectedPercentage(percentage);
         calculatePersonalBill(billAmount, percentage, tipPercentageCustom, numberOfPeople)
     };
 
     const handleTipPercentageCustomChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const percCustom = parseFloat((event.target.value).replace(/[^0-9.]/g, ''));
         dispatch({ type: SET_TIP_PERCENTAGE_CUSTOM, payload: isNaN(percCustom) ? null : percCustom });
-        setSelectedPercentage(null);
         calculatePersonalBill(billAmount, percCustom, tipPercentageCustom, numberOfPeople)
     };
     // const handleTipPercentageCustomChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,16 +50,26 @@ const SelectTip = () => {
         if (billAmount <= 0) return;
         if (tipPercentage > 0 || tipCustom > 0) {
             const selectedTipPercentage = tipPercentage > 0 ? tipPercentage : tipCustom;
-            const selectedNamberOfPeople = numberOfPeople > 0 ? numberOfPeople : 1;
-            const totalPersonalTip = (billAmount / selectedNamberOfPeople * selectedTipPercentage / 100).toFixed(2);
-            const totalPersonalAmount = (billAmount / selectedNamberOfPeople * (1 + selectedTipPercentage / 100)).toFixed(2);
+            const selectedNumberOfPeople = numberOfPeople > 0 ? numberOfPeople : 1;
+            const totalPersonalTip = (billAmount / selectedNumberOfPeople * selectedTipPercentage / 100).toFixed(2);
+            const totalPersonalAmount = (billAmount / selectedNumberOfPeople * (1 + selectedTipPercentage / 100)).toFixed(2);
+            const totalTips = (billAmount * selectedTipPercentage / 100).toFixed(2);
+            const totalBill = (billAmount * (1 + selectedTipPercentage / 100)).toFixed(2);
+
             dispatch({ type: SET_PERSONAL_TIP, payload: totalPersonalTip })
             dispatch({ type: SET_PERSONAL_AMOUNT, payload: totalPersonalAmount })
+            dispatch({ type: SET_TOTAL_TIPS, payload: totalTips })
+            dispatch({ type: SET_TOTAL_BILL, payload: totalBill })
+
         } else if (tipPercentage === 0 && tipCustom === 0 && numberOfPeople === 0) {
             const totalPersonalTip = 0;
             const totalPersonalAmount = billAmount.toFixed(2);
+            const totalTips = 0;
+            const totalBill = billAmount * 1;
             dispatch({ type: SET_PERSONAL_TIP, payload: totalPersonalTip })
             dispatch({ type: SET_PERSONAL_AMOUNT, payload: totalPersonalAmount })
+            dispatch({ type: SET_TOTAL_TIPS, payload: totalTips })
+            dispatch({ type: SET_TOTAL_BILL, payload: totalBill })
         }
 
 
@@ -88,7 +94,7 @@ const SelectTip = () => {
             <p className={css.title}>Select Tip %</p>
             <ul className={css.btnList}>
                 {['5', '10', '15', '25', '50'].map((item: string) => (
-                    <li className={`${css.btn} ${selectedPercentage === parseInt(item, 10) ? css.selected : ''}`} key={item} onClick={() => handleTipPercentageChange(parseInt(item, 10))}>
+                    <li className={`${css.btn} ${tipPercentage === parseInt(item, 10) ? css.selected : ''}`} key={item} onClick={() => handleTipPercentageChange(parseInt(item, 10))}>
                         {item}%
                     </li>
                 ))}
