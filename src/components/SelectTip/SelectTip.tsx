@@ -11,8 +11,7 @@ const SelectTip = () => {
     const { billAmount, tipPercentage, tipPercentageCustom, numberOfPeople } = useSelector((state: tipCount) => state.tipCount);
 
     const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        // const amount = parseFloat(event.target.value);
-        const amount = parseFloat((event.target.value).replace(/[^0-9.,]+/g, match => match === '.' ? '.' : ''));
+        const amount = parseFloat(event.target.value);
         dispatch({ type: SET_BILL_AMOUNT, payload: (isNaN(amount) || amount < 0) ? 0 : amount });
         calculatePersonalBill(amount, tipPercentage, tipPercentageCustom, numberOfPeople)
     };
@@ -23,19 +22,14 @@ const SelectTip = () => {
     };
 
     const handleTipPercentageCustomChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const percCustom = parseFloat((event.target.value).replace(/[^0-9.]/g, ''));
+        const percCustom = parseFloat((event.target.value).replace(/[^0-9]/g, ''));
         dispatch({ type: SET_TIP_PERCENTAGE_CUSTOM, payload: isNaN(percCustom) ? null : percCustom });
         calculatePersonalBill(billAmount, percCustom, tipPercentageCustom, numberOfPeople)
     };
-    // const handleTipPercentageCustomChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const percCustom = parseFloat(event.target.value);
-    //     dispatch({ type: SET_TIP_PERCENTAGE_CUSTOM, payload: isNaN(percCustom) ? 0 : percCustom });
-    //     setSelectedPercentage(null);
-    //     calculatePersonalBill(billAmount, percCustom, tipPercentageCustom, numberOfPeople)
-    // };
 
     const handleNumberOfPeopleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const count = parseInt((event.target.value).replace(/[^0-9]/g, ''), 10);
+
         // if (count < 0 || isNaN(count)) {
         //     alert("Number of people must be a positive integer");
         //     return;
@@ -65,7 +59,7 @@ const SelectTip = () => {
             const totalPersonalTip = 0;
             const totalPersonalAmount = billAmount.toFixed(2);
             const totalTips = 0;
-            const totalBill = billAmount * 1;
+            const totalBill = (billAmount).toFixed(2);
             dispatch({ type: SET_PERSONAL_TIP, payload: totalPersonalTip })
             dispatch({ type: SET_PERSONAL_AMOUNT, payload: totalPersonalAmount })
             dispatch({ type: SET_TOTAL_TIPS, payload: totalTips })
@@ -106,13 +100,6 @@ const SelectTip = () => {
                         onChange={handleTipPercentageCustomChange}
 
                     />
-                    {/* <input type="number"
-                        className={`${css.customInput} ${tipPercentageCustom !== 0 ? css.customInputselected : ''}`}
-                        placeholder={tipPercentageCustom === 0 ? "Custom" : "0"}
-                        value={tipPercentageCustom === 0 ? "" : tipPercentageCustom}
-                        onChange={handleTipPercentageCustomChange}
-
-                    /> */}
                 </li>
             </ul>
 
