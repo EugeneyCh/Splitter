@@ -242,6 +242,12 @@ input[type="number"]:hover {
 
     }
 
+    .dollarAfter {
+        right: 4px;
+        top: 16px;
+        font-size: 18px;
+    }
+
 
     /* .btn,
     .btn:last-child {
