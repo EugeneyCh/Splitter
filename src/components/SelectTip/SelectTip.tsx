@@ -10,6 +10,48 @@ const SelectTip = () => {
     const dispatch = useDispatch();
     const { billAmount, tipPercentage, tipPercentageCustom, numberOfPeople } = useSelector((state: tipCount) => state.tipCount);
 
+    // const ValidateDecimal = (e: string) => {
+    //     const beforeDecimal = 2;
+    //     const afterDecimal = 2;
+
+    //     $('#' + e.id).on('input', function () {
+    //         this.value = this.value
+    //             .replace(/[^\d.]/g, '')
+    //             .replace(new RegExp("(^[\\d]{" + beforeDecimal + "})[\\d]", "g"), '$1')
+    //             .replace(/(..*)\./g, '$1')
+    //             .replace(new RegExp("(\\.[\\d]{" + afterDecimal + "}).", "g"), '$1');
+    //     })
+    // }
+
+    // const validateDecimal = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const beforeDecimal = 2;
+    //     const afterDecimal = 2;
+
+    //     e.target.value = e.target.value
+    //         .replace(/[^\d.]/g, '')
+    //         .replace(new RegExp("(^[\\d]{" + beforeDecimal + "})[\\d]", "g"), '$1')
+    //         .replace(/(..*)\./g, '$1')
+    //         .replace(new RegExp("(\\.[\\d]{" + afterDecimal + "}).", "g"), '$1');
+    // };
+
+    // function roundNumberTo2Decimal(n: string) {
+    //     return +(Math.round(n + "e+2") + "e-2");
+    // }
+
+    // function roundNumberTo2Decimal(n: string): number {
+    //     // Перетворення рядка у число за допомогою parseFloat
+    //     const numberValue = parseFloat(n);
+
+    //     // Перевірка, чи конвертація була успішною
+    //     if (!isNaN(numberValue)) {
+    //         return +(Math.round(numberValue+ "e+2") + "e-2");
+    //     } else {
+    //         // Обробка випадку, коли конвертація не вдалася
+    //         console.error("Invalid number format");
+    //         return 0; // або інше значення за вашим вибором
+    //     }
+    // }
+
     const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const amount = parseFloat(event.target.value);
         dispatch({ type: SET_BILL_AMOUNT, payload: (isNaN(amount) || amount < 0) ? 0 : amount });
@@ -95,11 +137,12 @@ const SelectTip = () => {
                 <li className={css.customInputArea}>
                     <input type="text"
                         className={`${css.customInput} ${tipPercentageCustom !== 0 ? css.customInputselected : ''}`}
-                        placeholder={tipPercentageCustom === null ? "Custom" : "0"}
+                        placeholder={tipPercentageCustom === null ? "Custom" : ""}
                         value={tipPercentageCustom === null ? "" : tipPercentageCustom}
                         onChange={handleTipPercentageCustomChange}
-
+                        maxLength={2}
                     />
+                    {tipPercentageCustom !== null && <span className={css.dollarAfter}>%</span>}
                 </li>
             </ul>
 

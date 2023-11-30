@@ -73,6 +73,7 @@
 }
 
 .customInputArea {
+    position: relative;
     width: 218px;
     height: 96px;
 }
@@ -85,17 +86,28 @@
     font-weight: 700;
     border: none;
     border-radius: 10px;
-    color: #62797b;
+    color: #00464e;
     background-color: #f3f8fb;
     padding: 0px 36px;
 }
 
 .customInputselected {
     border: 2px solid #62797b;
+    text-align: center;
 }
 
 .customInput::placeholder {
     text-align: center;
+}
+
+.dollarAfter {
+    position: absolute;
+    right: 20px;
+    top: 28px;
+    font-size: 36px;
+    font-weight: 700;
+
+    color: #00464e;
 }
 
 /* .btn,
