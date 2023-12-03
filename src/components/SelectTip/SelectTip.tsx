@@ -65,10 +65,12 @@ const SelectTip = () => {
     }
 
     const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const amount = amountCheck(event.target.value)
+        const amount:number =  amountCheck(event.target.value)
 
-        dispatch({ type: SET_BILL_AMOUNT, payload: (isNaN(amount) || amount < 0) ? 0 : billAmountString });
+        dispatch({ type: SET_BILL_AMOUNT, payload: (amount < 0) ? 0 : billAmountString });
         calculatePersonalBill(amount, tipPercentage, tipPercentageCustom, numberOfPeople)
+        console.log(amount);
+
         setBillAmountString((event.target.value).replace(/[^\d.,]/g, ''))
     };
 
@@ -99,28 +101,19 @@ const SelectTip = () => {
 
     const calculatePersonalBill = (billAmount: number, tipPercentage: number, tipPercentageCustom: number | null, numberOfPeople: number) => {
         const tipCustom: number = (tipPercentageCustom === null || tipPercentageCustom === 0) ? 0 : tipPercentageCustom;
-        if (billAmount <= 0) return;
-        if ((tipPercentage > 0 || tipCustom > 0) && numberOfPeople === 0) {
-            const selectedTipPercentage = tipPercentage > 0 ? tipPercentage : tipCustom;
-
-            const totalPersonalTip = (billAmount * selectedTipPercentage / 100).toFixed(2);
-            const totalPersonalAmount = (billAmount * (1 + selectedTipPercentage / 100)).toFixed(2);
-            const totalTips = (billAmount * selectedTipPercentage / 100).toFixed(2);
-            const totalBill = (billAmount * (1 + selectedTipPercentage / 100)).toFixed(2);
-
-            dispatch({ type: SET_PERSONAL_TIP, payload: totalPersonalTip })
-            dispatch({ type: SET_PERSONAL_AMOUNT, payload: totalPersonalAmount })
-            dispatch({ type: SET_TOTAL_TIPS, payload: totalTips })
-            dispatch({ type: SET_TOTAL_BILL, payload: totalBill })
+        // if (billAmount < 0) return;
+        if (billAmount === 0||billAmount===-1) {
+            dispatch({ type: SET_PERSONAL_TIP, payload: 0 })
+            dispatch({ type: SET_PERSONAL_AMOUNT, payload: 0 })
+            dispatch({ type: SET_TOTAL_TIPS, payload: 0 })
+            dispatch({ type: SET_TOTAL_BILL, payload: 0 })
 
         } else
-            if ((tipPercentage > 0 || tipCustom > 0) && (numberOfPeople > 0 || Number.isNaN(numberOfPeople))) {
+            if ((tipPercentage > 0 || tipCustom > 0) && numberOfPeople === 0) {
                 const selectedTipPercentage = tipPercentage > 0 ? tipPercentage : tipCustom;
-                const selectedNumberOfPeople = (numberOfPeople > 0 || !Number.isNaN(numberOfPeople)) ? numberOfPeople : 1;
-                console.log(selectedNumberOfPeople);
 
-                const totalPersonalTip = (billAmount / selectedNumberOfPeople * selectedTipPercentage / 100).toFixed(2);
-                const totalPersonalAmount = (billAmount / selectedNumberOfPeople * (1 + selectedTipPercentage / 100)).toFixed(2);
+                const totalPersonalTip = (billAmount * selectedTipPercentage / 100).toFixed(2);
+                const totalPersonalAmount = (billAmount * (1 + selectedTipPercentage / 100)).toFixed(2);
                 const totalTips = (billAmount * selectedTipPercentage / 100).toFixed(2);
                 const totalBill = (billAmount * (1 + selectedTipPercentage / 100)).toFixed(2);
 
@@ -130,30 +123,46 @@ const SelectTip = () => {
                 dispatch({ type: SET_TOTAL_BILL, payload: totalBill })
 
             } else
-                if (tipPercentage === 0 && tipCustom === 0 && (numberOfPeople === 0 || Number.isNaN(numberOfPeople))) {
-                    const totalPersonalTip = 0;
-                    // const totalPersonalAmount = billAmount.toFixed(2);
-                    const totalPersonalAmount = billAmount.toFixed(2);
-                    const totalTips = 0;
-                    // const totalBill = (billAmount).toFixed(2);
-                    const totalBill = billAmount.toFixed(2);
+                if ((tipPercentage > 0 || tipCustom > 0) && (numberOfPeople > 0 || Number.isNaN(numberOfPeople))) {
+                    const selectedTipPercentage = tipPercentage > 0 ? tipPercentage : tipCustom;
+                    const selectedNumberOfPeople = (numberOfPeople > 0 || !Number.isNaN(numberOfPeople)) ? numberOfPeople : 1;
+                    console.log(selectedNumberOfPeople);
+
+                    const totalPersonalTip = (billAmount / selectedNumberOfPeople * selectedTipPercentage / 100).toFixed(2);
+                    const totalPersonalAmount = (billAmount / selectedNumberOfPeople * (1 + selectedTipPercentage / 100)).toFixed(2);
+                    const totalTips = (billAmount * selectedTipPercentage / 100).toFixed(2);
+                    const totalBill = (billAmount * (1 + selectedTipPercentage / 100)).toFixed(2);
+
                     dispatch({ type: SET_PERSONAL_TIP, payload: totalPersonalTip })
                     dispatch({ type: SET_PERSONAL_AMOUNT, payload: totalPersonalAmount })
                     dispatch({ type: SET_TOTAL_TIPS, payload: totalTips })
                     dispatch({ type: SET_TOTAL_BILL, payload: totalBill })
+
                 } else
-                    if (tipPercentage === 0 && (tipCustom === 0 || Number.isNaN(tipCustom)) && numberOfPeople > 0) {
-
+                    if (tipPercentage === 0 && tipCustom === 0 && (numberOfPeople === 0 || Number.isNaN(numberOfPeople))) {
                         const totalPersonalTip = 0;
-                        const totalPersonalAmount = (billAmount / numberOfPeople).toFixed(2);
+                        // const totalPersonalAmount = billAmount.toFixed(2);
+                        const totalPersonalAmount = billAmount.toFixed(2);
                         const totalTips = 0;
+                        // const totalBill = (billAmount).toFixed(2);
                         const totalBill = billAmount.toFixed(2);
-
                         dispatch({ type: SET_PERSONAL_TIP, payload: totalPersonalTip })
                         dispatch({ type: SET_PERSONAL_AMOUNT, payload: totalPersonalAmount })
                         dispatch({ type: SET_TOTAL_TIPS, payload: totalTips })
                         dispatch({ type: SET_TOTAL_BILL, payload: totalBill })
-                    }
+                    } else
+                        if (tipPercentage === 0 && (tipCustom === 0 || Number.isNaN(tipCustom)) && numberOfPeople > 0) {
+
+                            const totalPersonalTip = 0;
+                            const totalPersonalAmount = (billAmount / numberOfPeople).toFixed(2);
+                            const totalTips = 0;
+                            const totalBill = billAmount.toFixed(2);
+
+                            dispatch({ type: SET_PERSONAL_TIP, payload: totalPersonalTip })
+                            dispatch({ type: SET_PERSONAL_AMOUNT, payload: totalPersonalAmount })
+                            dispatch({ type: SET_TOTAL_TIPS, payload: totalTips })
+                            dispatch({ type: SET_TOTAL_BILL, payload: totalBill })
+                        }
 
 
 
