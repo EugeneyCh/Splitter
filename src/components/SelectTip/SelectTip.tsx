@@ -53,6 +53,17 @@ const SelectTip = () => {
     //     }
     // }
 
+
+    function checkValue(event: React.ChangeEvent<HTMLInputElement>) {
+        setBillAmountString(handleDecimalsOnValue(event.target.value));
+    }
+
+    function handleDecimalsOnValue(value) {
+        const regex = /([0-9]*[\.,]{0,1}[0-9]{0,2})/s;
+        return value.match(regex)[0];
+    }
+
+
     const amountCheck = (amount: string) => {
         if (amount === "") return -1;
         // const amount: string = bill.replace(/[^\d.,]/g, '')
@@ -65,7 +76,7 @@ const SelectTip = () => {
     }
 
     const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const amount:number =  amountCheck(event.target.value)
+        const amount: number = amountCheck(event.target.value)
 
         dispatch({ type: SET_BILL_AMOUNT, payload: (amount < 0) ? 0 : billAmountString });
         calculatePersonalBill(amount, tipPercentage, tipPercentageCustom, numberOfPeople)
@@ -102,7 +113,7 @@ const SelectTip = () => {
     const calculatePersonalBill = (billAmount: number, tipPercentage: number, tipPercentageCustom: number | null, numberOfPeople: number) => {
         const tipCustom: number = (tipPercentageCustom === null || tipPercentageCustom === 0) ? 0 : tipPercentageCustom;
         // if (billAmount < 0) return;
-        if (billAmount === 0||billAmount===-1) {
+        if (billAmount === 0 || billAmount === -1) {
             dispatch({ type: SET_PERSONAL_TIP, payload: 0 })
             dispatch({ type: SET_PERSONAL_AMOUNT, payload: 0 })
             dispatch({ type: SET_TOTAL_TIPS, payload: 0 })
@@ -168,18 +179,22 @@ const SelectTip = () => {
 
     }
 
+
     return (
         <div className={css.actionContainer}>
             <label className={css.inputPlaceTitle}>
                 Bill
                 <input
-                    type="number"
+                    // type="number"
+                    // pattern="[\d]+([\.][\d]{2})"
                     name="sum"
                     maxLength={10}
                     placeholder={billAmount === 0 ? "0.00" : ""}
                     className={`${css.inputPlace} ${(billAmount === 0 || isNaN(billAmount)) ? css.errorInput : ''}`}
                     value={billAmount === 0 ? "" : billAmountString}
-                    onChange={handleBillAmountChange}
+                    // onChange={handleBillAmountChange}
+                    type="text"
+                    onChange={(event) => checkValue(event)}
                 />
                 <p className={css.dollar}>$</p>
             </label>
