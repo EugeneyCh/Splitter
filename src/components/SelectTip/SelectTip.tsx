@@ -11,62 +11,27 @@ const SelectTip = () => {
     const { tipPercentage, tipPercentageCustom, numberOfPeople } = useSelector((state: tipCount) => state.tipCount);
     const [billAmountString, setBillAmountString] = useState('0')
     const billAmount: number = parseFloat(billAmountString);
-    // const ValidateDecimal = (e: string) => {
-    //     const beforeDecimal = 2;
-    //     const afterDecimal = 2;
-
-    //     $('#' + e.id).on('input', function () {
-    //         this.value = this.value
-    //             .replace(/[^\d.]/g, '')
-    //             .replace(new RegExp("(^[\\d]{" + beforeDecimal + "})[\\d]", "g"), '$1')
-    //             .replace(/(..*)\./g, '$1')
-    //             .replace(new RegExp("(\\.[\\d]{" + afterDecimal + "}).", "g"), '$1');
-    //     })
-    // }
-
-    // const validateDecimal = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const beforeDecimal = 2;
-    //     const afterDecimal = 2;
-
-    //     e.target.value = e.target.value
-    //         .replace(/[^\d.]/g, '')
-    //         .replace(new RegExp("(^[\\d]{" + beforeDecimal + "})[\\d]", "g"), '$1')
-    //         .replace(/(..*)\./g, '$1')
-    //         .replace(new RegExp("(\\.[\\d]{" + afterDecimal + "}).", "g"), '$1');
-    // };
-
-    // function roundNumberTo2Decimal(n: string) {
-    //     return +(Math.round(n + "e+2") + "e-2");
-    // }
-
-    // function roundNumberTo2Decimal(n: string): number {
-    //     // Перетворення рядка у число за допомогою parseFloat
-    //     const numberValue = parseFloat(n);
-
-    //     // Перевірка, чи конвертація була успішною
-    //     if (!isNaN(numberValue)) {
-    //         return +(Math.round(numberValue+ "e+2") + "e-2");
-    //     } else {
-    //         // Обробка випадку, коли конвертація не вдалася
-    //         console.error("Invalid number format");
-    //         return 0; // або інше значення за вашим вибором
-    //     }
-    // }
-
 
     function checkValue(event: React.ChangeEvent<HTMLInputElement>) {
         setBillAmountString(handleDecimalsOnValue(event.target.value));
     }
 
-    function handleDecimalsOnValue(value) {
-        const regex = /([0-9]*[\.,]{0,1}[0-9]{0,2})/s;
-        return value.match(regex)[0];
+    function handleDecimalsOnValue(value: string): string {
+        const regex = /([0-9]*[\\.,]{0,1}[0-9]{0,2})/s;
+        const match = value.match(regex);
+
+        if (match && match[0] !== null) {
+            return match[0];
+        } else {
+            return '';
+        }
     }
 
 
-    const amountCheck = (amount: string) => {
+    const amountCheck = (value: string) => {
+        const amount: string = handleDecimalsOnValue(value);
+
         if (amount === "") return -1;
-        // const amount: string = bill.replace(/[^\d.,]/g, '')
         if (amount[amount.length - 1] === "." || amount[amount.length - 1] === ",") {
             return parseFloat(amount.slice(0, -1))
         }
@@ -76,13 +41,11 @@ const SelectTip = () => {
     }
 
     const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
         const amount: number = amountCheck(event.target.value)
 
         dispatch({ type: SET_BILL_AMOUNT, payload: (amount < 0) ? 0 : billAmountString });
         calculatePersonalBill(amount, tipPercentage, tipPercentageCustom, numberOfPeople)
-        console.log(amount);
-
-        setBillAmountString((event.target.value).replace(/[^\d.,]/g, ''))
     };
 
     const handleTipPercentageChange = (percentage: number) => {
@@ -194,7 +157,8 @@ const SelectTip = () => {
                     value={billAmount === 0 ? "" : billAmountString}
                     // onChange={handleBillAmountChange}
                     type="text"
-                    onChange={(event) => checkValue(event)}
+                    onChange={checkValue}
+                    onBlur={handleBillAmountChange}
                 />
                 <p className={css.dollar}>$</p>
             </label>
