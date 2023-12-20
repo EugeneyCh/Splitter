@@ -10,21 +10,33 @@ const SelectTip = () => {
     const dispatch = useDispatch();
     const { tipPercentage, tipPercentageCustom, numberOfPeople } = useSelector((state: tipCount) => state.tipCount);
     const [billAmountString, setBillAmountString] = useState('0')
-    const billAmount: number = parseFloat(billAmountString);
+    // const billAmount: number = parseFloat(parseFloat(billAmountString).toFixed(2));
+    const billAmount: number = billAmountString !== '' ? parseFloat(billAmountString) : 0;
+    console.log('billAmountString -', billAmountString);
+    console.log('billAmount -', billAmount);
 
     function checkValue(event: React.ChangeEvent<HTMLInputElement>) {
+        console.log('HandleDecimal Value=', handleDecimalsOnValue(event.target.value));
+
         setBillAmountString(handleDecimalsOnValue(event.target.value));
     }
 
     function handleDecimalsOnValue(value: string): string {
         const regex = /([0-9]*[\\.,]{0,1}[0-9]{0,2})/s;
-        const match = value.match(regex);
+        const match = value.replace(/,/g, ".").match(regex);
+        // const match0 = match[0] === null ? '' : match[0]
 
         if (match && match[0] !== null) {
             return match[0];
         } else {
             return '';
         }
+        // if (match && match[0] !== null) {
+        //     if (match[0].includes('.')) { return (parseFloat(match[0])).toFixed(2) } else { return match[0]; }
+        // } else {
+        //     return '';
+        // }
+
     }
 
 
@@ -36,6 +48,8 @@ const SelectTip = () => {
             return parseFloat(amount.slice(0, -1))
         }
         else {
+            // console.log(typeof parseFloat(parseFloat(amount).toFixed(2)));
+
             return parseFloat(amount);
         }
     }
@@ -47,6 +61,8 @@ const SelectTip = () => {
         dispatch({ type: SET_BILL_AMOUNT, payload: (amount < 0) ? 0 : billAmountString });
         calculatePersonalBill(amount, tipPercentage, tipPercentageCustom, numberOfPeople)
     };
+
+    // const resetBillAmont=()=>{setBillAmountString('0')}
 
     const handleTipPercentageChange = (percentage: number) => {
 
