@@ -179,6 +179,7 @@ const SelectTip: React.FC<SelectTipProps> = ({ billAmountString, setBillAmountSt
                     // type="number"
                     // pattern="[\d]+([\.][\d]{2})"
                     name="sum"
+                    autoComplete='off'
                     maxLength={10}
                     placeholder={billAmount === 0 ? "0.00" : ""}
                     className={`${css.inputPlace} ${(billAmount === 0 || isNaN(billAmount)) ? css.errorInput : ''}`}
