@@ -4,8 +4,7 @@ import { RESET_ALL, tipCount } from '../store/tipCount/tipCount-actions';
 import css from './AmountTips.module.css';
 
 interface AmountTipsProps {
-    // setBillAmountString: React.Dispatch<React.SetStateAction<string>>;
-    onReset: () => void; // Новий пропс
+    onReset: () => void;
 }
 
 const AmountTips: React.FC<AmountTipsProps> = ({ onReset }) => {
@@ -24,7 +23,6 @@ const AmountTips: React.FC<AmountTipsProps> = ({ onReset }) => {
             <div className={css.tipContainer}>
                 <div className={css.amount}>
                     <p className={css.tipAmountTitle}>Tip Amount<span className={css.person}> /person</span></p>
-                    {/* <p className={css.person}>/ person</p> */}
                 </div>
                 <p className={css.amountTip}>{isNaN(amountTip) ? '0' : amountTip}</p>
             </div>
@@ -33,7 +31,6 @@ const AmountTips: React.FC<AmountTipsProps> = ({ onReset }) => {
                 <div className={css.totalContainer}>
                     <div className={css.totalAmount}>
                         <p className={css.totalAmountTitle}>Total<span className={css.person}> /person</span></p>
-                        {/* <p className={css.person}>/ person</p> */}
                     </div>
                     <p className={css.amountTotal}>{isNaN(amountTotal) ? '0' : amountTotal}</p>
                 </div>

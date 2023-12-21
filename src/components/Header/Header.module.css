@@ -22,9 +22,11 @@ p {
 
 @media screen and (min-width: 1000px) {
     .header {
+        justify-content: start;
         font-size: 18px;
         font-weight: 900;
         letter-spacing: 20px;
-        height: 302px;
+        height: 122px;
+        padding-top: 80px;
     }
 }

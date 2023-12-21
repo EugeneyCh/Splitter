@@ -1,5 +1,3 @@
-
-// import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { SET_BILL_AMOUNT, SET_TIP_PERCENTAGE, SET_TIP_PERCENTAGE_CUSTOM, SET_NUMBER_OF_PEOPLE, SET_PERSONAL_TIP, SET_PERSONAL_AMOUNT, tipCount, SET_TOTAL_TIPS, SET_TOTAL_BILL } from '../store/tipCount/tipCount-actions';
@@ -9,40 +7,26 @@ import css from './SelectTip.module.css';
 interface SelectTipProps {
     billAmountString: string;
     setBillAmountString: React.Dispatch<React.SetStateAction<string>>;
-    // onReset: () => void; // Новий пропс
 }
 
 const SelectTip: React.FC<SelectTipProps> = ({ billAmountString, setBillAmountString }) => {
     const dispatch = useDispatch();
     const { tipPercentage, tipPercentageCustom, numberOfPeople } = useSelector((state: tipCount) => state.tipCount);
-    // const [billAmountString, setBillAmountString] = useState('0')
-    // const billAmount: number = parseFloat(parseFloat(billAmountString).toFixed(2));
     const billAmount: number = billAmountString !== '' ? parseFloat(billAmountString) : 0;
-    console.log('billAmountString -', billAmountString);
-    console.log('billAmount -', billAmount);
 
     function checkValue(event: React.ChangeEvent<HTMLInputElement>) {
-        console.log('HandleDecimal Value=', handleDecimalsOnValue(event.target.value));
-
         setBillAmountString(handleDecimalsOnValue(event.target.value));
     }
 
     function handleDecimalsOnValue(value: string): string {
         const regex = /([0-9]*[\\.,]{0,1}[0-9]{0,2})/s;
         const match = value.replace(/,/g, ".").match(regex);
-        // const match0 = match[0] === null ? '' : match[0]
 
         if (match && match[0] !== null) {
             return match[0];
         } else {
             return '';
         }
-        // if (match && match[0] !== null) {
-        //     if (match[0].includes('.')) { return (parseFloat(match[0])).toFixed(2) } else { return match[0]; }
-        // } else {
-        //     return '';
-        // }
-
     }
 
 
@@ -54,19 +38,10 @@ const SelectTip: React.FC<SelectTipProps> = ({ billAmountString, setBillAmountSt
             return parseFloat(amount.slice(0, -1))
         }
         else {
-            // console.log(typeof parseFloat(parseFloat(amount).toFixed(2)));
-
             return parseFloat(amount);
         }
     }
 
-    // const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-
-    //     const amount: number = amountCheck(event.target.value)
-
-    //     dispatch({ type: SET_BILL_AMOUNT, payload: (amount < 0) ? 0 : billAmountString });
-    //     calculatePersonalBill(amount, tipPercentage, tipPercentageCustom, numberOfPeople)
-    // };
     const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const amount: number = amountCheck(event.target.value);
 
@@ -74,7 +49,6 @@ const SelectTip: React.FC<SelectTipProps> = ({ billAmountString, setBillAmountSt
         calculatePersonalBill(amount, tipPercentage, tipPercentageCustom, numberOfPeople);
     };
 
-    // const resetBillAmont=()=>{setBillAmountString('0')}
 
     const handleTipPercentageChange = (percentage: number) => {
 
@@ -92,10 +66,6 @@ const SelectTip: React.FC<SelectTipProps> = ({ billAmountString, setBillAmountSt
     const handleNumberOfPeopleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const count = parseInt((event.target.value).replace(/[^0-9]/g, ''), 10);
 
-        // if (count < 0 || isNaN(count)) {
-        //     alert("Number of people must be a positive integer");
-        //     return;
-        // }
         dispatch({ type: SET_NUMBER_OF_PEOPLE, payload: isNaN(count) ? 0 : count });
         calculatePersonalBill(billAmount, tipPercentage, tipPercentageCustom, count)
 
@@ -103,7 +73,6 @@ const SelectTip: React.FC<SelectTipProps> = ({ billAmountString, setBillAmountSt
 
     const calculatePersonalBill = (billAmount: number, tipPercentage: number, tipPercentageCustom: number | null, numberOfPeople: number) => {
         const tipCustom: number = (tipPercentageCustom === null || tipPercentageCustom === 0) ? 0 : tipPercentageCustom;
-        // if (billAmount < 0) return;
         if (billAmount === 0 || billAmount === -1) {
             dispatch({ type: SET_PERSONAL_TIP, payload: 0 })
             dispatch({ type: SET_PERSONAL_AMOUNT, payload: 0 })
@@ -128,7 +97,6 @@ const SelectTip: React.FC<SelectTipProps> = ({ billAmountString, setBillAmountSt
                 if ((tipPercentage > 0 || tipCustom > 0) && (numberOfPeople > 0 || Number.isNaN(numberOfPeople))) {
                     const selectedTipPercentage = tipPercentage > 0 ? tipPercentage : tipCustom;
                     const selectedNumberOfPeople = (numberOfPeople > 0 || !Number.isNaN(numberOfPeople)) ? numberOfPeople : 1;
-                    console.log(selectedNumberOfPeople);
 
                     const totalPersonalTip = (billAmount / selectedNumberOfPeople * selectedTipPercentage / 100).toFixed(2);
                     const totalPersonalAmount = (billAmount / selectedNumberOfPeople * (1 + selectedTipPercentage / 100)).toFixed(2);
@@ -143,10 +111,8 @@ const SelectTip: React.FC<SelectTipProps> = ({ billAmountString, setBillAmountSt
                 } else
                     if (tipPercentage === 0 && tipCustom === 0 && (numberOfPeople === 0 || Number.isNaN(numberOfPeople))) {
                         const totalPersonalTip = 0;
-                        // const totalPersonalAmount = billAmount.toFixed(2);
                         const totalPersonalAmount = billAmount.toFixed(2);
                         const totalTips = 0;
-                        // const totalBill = (billAmount).toFixed(2);
                         const totalBill = billAmount.toFixed(2);
                         dispatch({ type: SET_PERSONAL_TIP, payload: totalPersonalTip })
                         dispatch({ type: SET_PERSONAL_AMOUNT, payload: totalPersonalAmount })
@@ -176,14 +142,11 @@ const SelectTip: React.FC<SelectTipProps> = ({ billAmountString, setBillAmountSt
             <label className={css.inputPlaceTitle}>
                 Bill
                 <input
-                    // type="number"
-                    // pattern="[\d]+([\.][\d]{2})"
                     name="sum"
                     maxLength={10}
                     placeholder={billAmount === 0 ? "0.00" : ""}
                     className={`${css.inputPlace} ${(billAmount === 0 || isNaN(billAmount)) ? css.errorInput : ''}`}
                     value={billAmount === 0 ? "" : billAmountString}
-                    // onChange={handleBillAmountChange}
                     type="text"
                     onChange={checkValue}
                     onBlur={handleBillAmountChange}
