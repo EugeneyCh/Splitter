@@ -3,14 +3,20 @@ import { RESET_ALL, tipCount } from '../store/tipCount/tipCount-actions';
 
 import css from './AmountTips.module.css';
 
+interface AmountTipsProps {
+    // setBillAmountString: React.Dispatch<React.SetStateAction<string>>;
+    onReset: () => void; // Новий пропс
+}
 
-
-const AmountTips = () => {
+const AmountTips: React.FC<AmountTipsProps> = ({ onReset }) => {
     const dispatch = useDispatch();
 
     const { amountTip, amountTotal, totalTips, totalBill } = useSelector((state: tipCount) => state.tipCount);
 
-    const handleResetAction = () => { dispatch({ type: RESET_ALL }); }
+    const handleResetAction = () => {
+        onReset();
+        dispatch({ type: RESET_ALL });
+    }
 
 
     return (

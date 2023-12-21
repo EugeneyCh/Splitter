@@ -1,15 +1,21 @@
 
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { SET_BILL_AMOUNT, SET_TIP_PERCENTAGE, SET_TIP_PERCENTAGE_CUSTOM, SET_NUMBER_OF_PEOPLE, SET_PERSONAL_TIP, SET_PERSONAL_AMOUNT, tipCount, SET_TOTAL_TIPS, SET_TOTAL_BILL } from '../store/tipCount/tipCount-actions';
 
 import css from './SelectTip.module.css';
 
-const SelectTip = () => {
+interface SelectTipProps {
+    billAmountString: string;
+    setBillAmountString: React.Dispatch<React.SetStateAction<string>>;
+    // onReset: () => void; // Новий пропс
+}
+
+const SelectTip: React.FC<SelectTipProps> = ({ billAmountString, setBillAmountString }) => {
     const dispatch = useDispatch();
     const { tipPercentage, tipPercentageCustom, numberOfPeople } = useSelector((state: tipCount) => state.tipCount);
-    const [billAmountString, setBillAmountString] = useState('0')
+    // const [billAmountString, setBillAmountString] = useState('0')
     // const billAmount: number = parseFloat(parseFloat(billAmountString).toFixed(2));
     const billAmount: number = billAmountString !== '' ? parseFloat(billAmountString) : 0;
     console.log('billAmountString -', billAmountString);
@@ -54,12 +60,18 @@ const SelectTip = () => {
         }
     }
 
-    const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
-        const amount: number = amountCheck(event.target.value)
+    //     const amount: number = amountCheck(event.target.value)
+
+    //     dispatch({ type: SET_BILL_AMOUNT, payload: (amount < 0) ? 0 : billAmountString });
+    //     calculatePersonalBill(amount, tipPercentage, tipPercentageCustom, numberOfPeople)
+    // };
+    const handleBillAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const amount: number = amountCheck(event.target.value);
 
         dispatch({ type: SET_BILL_AMOUNT, payload: (amount < 0) ? 0 : billAmountString });
-        calculatePersonalBill(amount, tipPercentage, tipPercentageCustom, numberOfPeople)
+        calculatePersonalBill(amount, tipPercentage, tipPercentageCustom, numberOfPeople);
     };
 
     // const resetBillAmont=()=>{setBillAmountString('0')}
